@@ -2,6 +2,7 @@ package com.example.musicplayer
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedContent
@@ -116,11 +117,13 @@ class MainActivity : ComponentActivity() {
             mutableIntStateOf(0)
         }
         LaunchedEffect(pagerState.currentPage) {
+            Log.d("counter","Launch1")
             playingSongIndex.intValue = pagerState.currentPage
             player.seekTo(pagerState.currentPage, 0)
         }
 
         LaunchedEffect(player.currentMediaItemIndex) {
+            Log.d("counter","Launch2")
             playingSongIndex.intValue = player.currentMediaItemIndex
             pagerState.animateScrollToPage(
                 playingSongIndex.intValue,
@@ -129,6 +132,7 @@ class MainActivity : ComponentActivity() {
         }
 
         LaunchedEffect(Unit) {
+            Log.d("counter","Launch3")
             playList.forEach {
                 val path = "android.resource://" + packageName + "/" + it.music
                 val mediaItem = MediaItem.fromUri(Uri.parse(path))
@@ -156,15 +160,18 @@ class MainActivity : ComponentActivity() {
 
 
         LaunchedEffect(key1 = player.currentPosition, key2 = player.isPlaying) {
+            Log.d("counter","Launch4")
             delay(1000)
             currentPosition.longValue = player.currentPosition
         }
 
         LaunchedEffect(currentPosition.longValue) {
+            Log.d("counter","Launch5")
             sliderPosition.longValue = currentPosition.longValue
         }
 
         LaunchedEffect(player.duration) {
+            Log.d("counter","Launch6")
             if (player.duration > 0) {
                 totalDuration.longValue = player.duration
             }
@@ -208,7 +215,7 @@ class MainActivity : ComponentActivity() {
                 /***
                  * Includes animated song album cover
                  */
-                HorizontalPager(
+              /*  HorizontalPager(
                     modifier = Modifier.fillMaxWidth(),
                     state = pagerState,
                     pageSize = PageSize.Fixed((configuration.screenWidthDp / (1.7)).dp),
@@ -223,6 +230,8 @@ class MainActivity : ComponentActivity() {
                         VinylAlbumCoverAnimation(isSongPlaying = false, painter = painter)
                     }
                 }
+                */
+
                 Spacer(modifier = Modifier.height(54.dp))
                 Column(
                     modifier = Modifier
@@ -343,7 +352,7 @@ class MainActivity : ComponentActivity() {
             )
         }
     }
-
+     /*
     @Composable
     fun VinylAlbumCoverAnimation(
         modifier: Modifier = Modifier,
@@ -464,7 +473,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
+   */
     /***
      * Convert the millisecond to String text
      */
@@ -496,31 +505,31 @@ class MainActivity : ComponentActivity() {
                 name = "Master Of Puppets",
                 artist = "Metallica",
                 cover = R.drawable.master_of_puppets_album_cover,
-                music = R.raw.master_of_puppets
+                music = R.raw.track1
             ),
             Music(
                 name = "Everyday Normal Guy 2",
                 artist = "Jon Lajoie",
                 cover = R.drawable.everyday_normal_guy_2_album_cover,
-                music = R.raw.everyday_normal_guy_2
+                music = R.raw.track2
             ),
             Music(
                 name = "Lose Yourself",
                 artist = "Eminem",
                 cover = R.drawable.lose_yourself_album_cover,
-                music = R.raw.lose_yourself
+                music = R.raw.track3
             ),
             Music(
                 name = "Crazy",
                 artist = "Gnarls Barkley",
                 cover = R.drawable.crazy_album_cover,
-                music = R.raw.crazy
+                music = R.raw.track4
             ),
             Music(
                 name = "Till I Collapse",
                 artist = "Eminem",
                 cover = R.drawable.till_i_collapse_album_cover,
-                music = R.raw.till_i_collapse
+                music = R.raw.track5
             ),
         )
     }
